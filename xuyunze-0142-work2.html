@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小提琴社 · 2026 春季招新</title>
+<style>
+  :root{
+    --ink:#2b2119;
+    --paper:#fbf6ee;
+    --card:#ffffff;
+    --amber:#b8822c;
+    --amber-light:#e5b96a;
+    --deep:#5e1f1f;
+    --wood:#8a5a33;
+    --line:#e2d5c0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+    font-size:16px;
+    line-height:1.9;
+  }
+  h1,h2,h3,h4{
+    font-family:"Songti SC","SimSun","STSong",serif;
+    letter-spacing:.08em;
+  }
+  a{color:var(--deep);}
+
+  /* ============ 顶部横幅 ============ */
+  .hero{
+    position:relative;
+    min-height:74vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:120px 24px 80px;
+    color:#fff8ec;
+    background:
+      linear-gradient(160deg, rgba(43,25,12,.86), rgba(94,31,31,.82)),
+      url("violin.jpg") center/cover no-repeat,
+      linear-gradient(160deg,#3a2414,#5e1f1f);
+  }
+  .hero h1{
+    font-size:clamp(2.2rem,6vw,4rem);
+    margin:0 0 8px;
+    text-shadow:0 4px 18px rgba(0,0,0,.5);
+  }
+  .hero .en{
+    font-family:Georgia,"Times New Roman",serif;
+    letter-spacing:.5em;
+    font-size:.82rem;
+    text-transform:uppercase;
+    color:var(--amber-light);
+    margin-bottom:26px;
+  }
+  .hero p.lead{
+    max-width:660px;
+    font-size:1.02rem;
+    color:#f3e3cb;
+    margin:0 auto 34px;
+  }
+  .hero .cta{
+    display:inline-block;
+    padding:12px 38px;
+    border:1px solid var(--amber-light);
+    color:#fff8ec;
+    text-decoration:none;
+    letter-spacing:.2em;
+    font-size:.92rem;
+    transition:.3s;
+  }
+  .hero .cta:hover{background:var(--amber-light);color:#3a2414;}
+
+  /* ============ 左上角背景音乐按钮 ============ */
+  #musicBtn{
+    position:absolute;
+    top:20px;left:20px;
+    z-index:60;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 18px;
+    font-family:inherit;
+    font-size:.86rem;
+    letter-spacing:.08em;
+    color:#fff3e0;
+    background:rgba(0,0,0,.34);
+    border:1px solid rgba(229,185,106,.7);
+    border-radius:999px;
+    cursor:pointer;
+    backdrop-filter:blur(4px);
+    transition:.25s;
+  }
+  #musicBtn:hover{background:rgba(184,130,44,.85);}
+  #musicBtn.playing{background:rgba(184,130,44,.9);border-color:#fff3e0;}
+
+  /* ============ 导航 ============ */
+  nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(251,246,238,.96);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 2px 14px rgba(90,60,30,.07);
+    backdrop-filter:blur(6px);
+  }
+  nav ul{
+    list-style:none;
+    margin:0 auto;
+    padding:0 16px;
+    max-width:1040px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  nav li{flex:1 1 auto;text-align:center;}
+  nav a{
+    display:block;
+    padding:15px 12px;
+    color:var(--ink);
+    text-decoration:none;
+    font-size:.9rem;
+    letter-spacing:.12em;
+    border-bottom:3px solid transparent;
+    transition:.25s;
+  }
+  nav a:hover{color:var(--deep);border-bottom-color:var(--amber);background:#f6ecdb;}
+  nav li+li a{border-left:1px solid var(--line);}
+
+  /* ============ 通用版块 ============ */
+  section{
+    max-width:1040px;
+    margin:0 auto;
+    padding:76px 26px 34px;
+    scroll-margin-top:64px;
+  }
+  section+section{border-top:1px dashed var(--line);}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:30px;
+  }
+  .sec-no{
+    font-family:Georgia,serif;
+    font-size:2.6rem;
+    line-height:1;
+    color:var(--amber);
+    opacity:.55;
+  }
+  .sec-head h2{
+    font-size:1.72rem;
+    margin:0;
+    color:var(--deep);
+  }
+  .sec-head .sub{
+    font-size:.78rem;
+    letter-spacing:.3em;
+    color:var(--wood);
+    text-transform:uppercase;
+    margin-left:auto;
+  }
+  p{margin:0 0 1.05em;text-indent:2em;}
+  .no-indent{text-indent:0;}
+  .pull{
+    margin:32px 0;
+    padding:22px 26px;
+    background:#f6ecdb;
+    border-left:4px solid var(--amber);
+    font-family:"Songti SC","SimSun",serif;
+    font-size:1.02rem;
+    color:#4a3521;
+    text-indent:0;
+  }
+  .grid-2{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin:26px 0;
+  }
+  .mini-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:18px 20px;
+    text-indent:0;
+    font-size:.94rem;
+    box-shadow:0 2px 8px rgba(120,90,50,.05);
+  }
+  .mini-card strong{display:block;color:var(--deep);margin-bottom:4px;font-size:1rem;}
+
+  /* ============ 表格（活动安排） ============ */
+  .table-wrap{overflow-x:auto;margin:30px 0 12px;}
+  table.schedule{
+    width:100%;
+    min-width:640px;
+    border-collapse:collapse;
+    background:var(--card);
+    font-size:.93rem;
+    box-shadow:0 3px 16px rgba(120,90,50,.09);
+  }
+  table.schedule th,
+  table.schedule td{
+    border:1px solid #d9c9ae;
+    padding:11px 14px;
+    vertical-align:middle;
+  }
+  /* 第一行：标题，跨 4 列 */
+  table.schedule tr.title-row th{
+    background:linear-gradient(90deg,#7a2b2b,#b8822c);
+    color:#fff6e6;
+    font-family:"Songti SC","SimSun",serif;
+    font-size:1.12rem;
+    letter-spacing:.14em;
+    padding:16px;
+    text-align:center;
+  }
+  /* 第二行：表头，全部居中 */
+  table.schedule tr.head-row th{
+    background:#f2e4cd;
+    color:#4a3521;
+    text-align:center;
+    letter-spacing:.16em;
+    font-weight:600;
+  }
+  table.schedule tbody tr:nth-child(even){background:#fdf9f2;}
+  table.schedule tbody tr:hover{background:#f8eeda;}
+  table.schedule td.room{
+    text-align:center;
+    background:#f7f0e2;
+    font-weight:600;
+    color:var(--wood);
+  }
+  table.schedule tr.note-row td{
+    background:#f6ecdb;
+    text-align:center;
+    font-size:.88rem;
+    color:#6b5335;
+  }
+  .table-cap{
+    font-size:.85rem;
+    color:var(--wood);
+    text-indent:0;
+    margin-top:2px;
+  }
+
+  /* ============ 风采展示 ============ */
+  .showcase{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:28px;
+    margin:30px 0;
+  }
+  .photo-frame{
+    position:relative;
+    border:10px solid #fff;
+    box-shadow:0 10px 30px rgba(90,60,25,.22);
+    background:#efe6d6;
+    text-align:center;
+  }
+  .photo-frame a{display:block;position:relative;}
+  .photo-frame img{
+    display:block;
+    width:100%;
+    height:520px;
+    object-fit:contain;
+    transition:transform .45s ease,filter .45s ease;
+  }
+  .photo-frame a:hover img{transform:scale(1.03);filter:brightness(.86);}
+  .photo-frame .hint{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    padding:10px;
+    background:linear-gradient(transparent,rgba(0,0,0,.72));
+    color:#fff3e0;
+    font-size:.85rem;
+    letter-spacing:.1em;
+    opacity:0;
+    transition:.35s;
+    text-indent:0;
+  }
+  .photo-frame a:hover + .hint,
+  .photo-frame .hint{opacity:1;}
+  .photo-cap{font-size:.88rem;color:var(--wood);text-indent:0;text-align:center;}
+  .video-box{
+    background:#20160c;
+    padding:14px;
+    border-radius:6px;
+    text-align:center;
+    box-shadow:0 10px 26px rgba(90,60,25,.22);
+  }
+  video,embed{
+    max-width:100%;
+    border:0;
+    background:#000;
+  }
+  .video-cap{font-size:.88rem;color:var(--wood);text-indent:0;text-align:center;margin-top:10px;}
+
+  /* ============ 报名表 ============ */
+  .form-wrap{margin:30px 0 8px;overflow-x:auto;}
+  form{margin:0;}
+  table.signup{
+    width:100%;
+    min-width:600px;
+    border-collapse:collapse;
+    background:var(--card);
+    box-shadow:0 3px 16px rgba(120,90,50,.09);
+    font-size:.94rem;
+  }
+  table.signup th,
+  table.signup td{
+    border:1px solid #d9c9ae;
+    padding:13px 16px;
+    text-align:left;
+    vertical-align:middle;
+  }
+  table.signup th{
+    width:34%;
+    background:#f6ecdb;
+    color:#4a3521;
+    font-weight:600;
+    letter-spacing:.06em;
+  }
+  table.signup tr:hover td{background:#fdf9f2;}
+  table.signup input[type="text"],
+  table.signup textarea,
+  table.signup select{
+    font-family:inherit;
+    font-size:.94rem;
+    color:var(--ink);
+    border:1px solid #cbb894;
+    border-radius:4px;
+    padding:7px 10px;
+    background:#fffdf8;
+    outline:none;
+    transition:.2s;
+  }
+  table.signup input[type="text"]:focus,
+  table.signup textarea:focus,
+  table.signup select:focus{
+    border-color:var(--amber);
+    box-shadow:0 0 0 3px rgba(184,130,44,.16);
+  }
+  table.signup input.text-wide{width:100%;max-width:260px;}
+  table.signup input.date-part{width:74px;}
+  table.signup label{display:inline-block;margin-right:20px;white-space:nowrap;}
+  table.signup label input{margin-right:5px;accent-color:var(--amber);}
+  table.signup textarea{width:100%;min-height:112px;resize:vertical;line-height:1.7;}
+  table.signup tr.ops td{text-align:center;background:#f9f1e2;padding:20px;}
+  input[type="submit"],input[type="reset"]{
+    font-family:inherit;
+    font-size:.95rem;
+    letter-spacing:.16em;
+    padding:10px 34px;
+    margin:0 8px;
+    border-radius:4px;
+    cursor:pointer;
+    transition:.25s;
+  }
+  input[type="submit"]{
+    background:var(--deep);
+    color:#fff6e6;
+    border:1px solid var(--deep);
+  }
+  input[type="submit"]:hover{background:#7d2c2c;border-color:#7d2c2c;}
+  input[type="reset"]{
+    background:#fff;
+    color:var(--wood);
+    border:1px solid #cbb894;
+  }
+  input[type="reset"]:hover{background:#f2e4cd;}
+
+  /* ============ 返回顶部 ============ */
+  .back-top{
+    text-align:center;
+    text-indent:0;
+    margin:44px 0 0;
+  }
+  .back-top a{
+    display:inline-block;
+    padding:9px 30px;
+    font-size:.88rem;
+    letter-spacing:.18em;
+    color:#6b5335;
+    text-decoration:none;
+    border:1px solid #cbb894;
+    border-radius:999px;
+    background:#fffdf8;
+    transition:.25s;
+  }
+  .back-top a:hover{
+    background:var(--deep);
+    color:#fff6e6;
+    border-color:var(--deep);
+  }
+  #toTop{
+    position:fixed;
+    right:22px;bottom:26px;
+    z-index:80;
+    width:48px;height:48px;
+    border-radius:50%;
+    border:1px solid var(--amber);
+    background:rgba(94,31,31,.9);
+    color:#fff6e6;
+    font-size:1.15rem;
+    cursor:pointer;
+    opacity:0;
+    pointer-events:none;
+    transition:.35s;
+  }
+  #toTop.show{opacity:1;pointer-events:auto;}
+  #toTop:hover{background:var(--amber);}
+
+  /* ============ 页脚 ============ */
+  footer{
+    margin-top:40px;
+    padding:44px 24px 34px;
+    background:#2b1a10;
+    color:#d8c6ac;
+    text-align:center;
+    font-size:.86rem;
+    letter-spacing:.06em;
+  }
+  footer strong{color:var(--amber-light);font-family:"Songti SC","SimSun",serif;letter-spacing:.3em;}
+
+  @media (max-width:680px){
+    section{padding:56px 18px 26px;}
+    nav a{padding:12px 6px;font-size:.8rem;letter-spacing:.02em;}
+    .sec-head{flex-wrap:wrap;gap:8px;}
+    .sec-head .sub{display:none;}
+    #musicBtn{top:12px;left:12px;font-size:.78rem;padding:8px 14px;}
+    table.signup th{width:40%;}
+  }
+</style>
+</head>
+
+<body id="top">
+
+<!-- ==================== 1. 顶部横幅 & 左上角背景音乐 ==================== -->
+<header class="hero">
+  <button id="musicBtn" type="button">🎵 点击播放背景音乐</button>
+  <h1>小提琴社</h1>
+  <div class="en">Violin Club &nbsp;·&nbsp; Since 2009</div>
+  <p class="lead">
+    十六年，一间琴房，一百三十七把琴。<br>
+    我们相信每个人的第一支曲子，都值得被认真听见。
+  </p>
+  <a class="cta" href="#signup">2026 春季招新 · 在线报名</a>
+</header>
+
+<!-- 背景音乐（把 bgm.mp3 放在同一目录即可） -->
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
+
+<!-- ==================== 2. 五个锚点导航 ==================== -->
+<nav>
+  <ul>
+    <li><a href="#intro">社团简介</a></li>
+    <li><a href="#activity">活动安排</a></li>
+    <li><a href="#gallery">风采展示</a></li>
+    <li><a href="#story">社员故事</a></li>
+    <li><a href="#signup">在线报名</a></li>
+  </ul>
+</nav>
+
+<!-- ==================== 2-① 社团简介 ==================== -->
+<section id="intro">
+  <div class="sec-head">
+    <span class="sec-no">01</span>
+    <h2>社团简介</h2>
+    <span class="sub">About Us</span>
+  </div>
+
+  <p>小提琴社成立于 2009 年 9 月，是我校历史最悠久的音乐类学生社团之一。十六年来，我们以“让每一个想拉琴的人都能拉响第一支曲子”为初心，从一个只有七个人的小琴房，成长为今天拥有注册社员一百三十余人、覆盖全校十几个院系的成熟社团。社团办公室与排练厅都设在艺术楼 A-201，门口那块被磨得发亮的木牌上，写着历届社长的名字。</p>
+
+  <p>社团的宗旨可以用三句话概括：以琴会友，以乐养心，以演促学。我们不设门槛，不看你是否有基础，也不要求你家里有琴——只要你愿意在每周三晚上抽出两个小时，我们就愿意陪你从空弦开始，一格一格地往前挪。在社团的价值观里，拉得好不好从来不是最重要的事，愿意坐下来练，才是。</p>
+
+  <div class="pull">“音乐不是少数人的天赋，而是所有人的回音。”<br>——社团成立时的第一条社训，至今仍贴在排练厅的墙上。</div>
+
+  <p>在教学体系上，社团目前设有四个梯队。零基础班面向从未接触过小提琴的同学，从持琴姿势、运弓、音准听辨开始教起；进阶班面向有一年以上基础的同学，重点解决换把、揉弦与音色控制；重奏组由三到五人组成小型室内乐组合，主打弦乐四重奏与二重奏；弦乐团则是每学期大型演出的主力，编制在三十人左右。四个梯队之间每学期可以申请一次流动，进步快的同学完全可以后来居上。</p>
+
+  <p>社团由艺术学院李承泽老师担任指导教师，同时有八位高年级社员担任助教。每周三晚七点到九点是固定的集体排练时间；每周六下午两点到五点是自由练琴时间，社团提供六把公用小提琴与四支弓供新社员借用，先到先得。琴房全年对社员开放，只需在群里报备，晚上十点前离开即可。</p>
+
+  <p>我们的曲目库跨度很大。古典作品里有巴赫的《G 弦上的咏叹调》、维瓦尔第的《四季·春》、埃尔加的《爱的致意》、马斯涅的《沉思》；流行改编里则有《天空之城》《菊次郎的夏天》《City of Stars》《一步之遥》，还有社员自己改编的校园民谣串烧。每年招新之后，社团会做一次全员投票，票数最高的三首曲子进入当年重点排练曲目。</p>
+
+  <p>每学年社团有四场固定演出：九月的迎新晚会、十二月的“冬之弦”专场音乐会、四月的社团文化节、六月的毕业季送别演出。除此之外，我们还会受邀参加校外的公益演出、敬老院慰问演出，以及与兄弟院校弦乐团的联合交流音乐会。演出的意义不只是展示，更是给每一个练琴的人一个明确的截止日期。</p>
+
+  <p>近三年，社团在省级大学生艺术展演中获得器乐类二等奖一次、三等奖两次，在校园“十佳社团”评选中连续三年入选，并有两次被评为“最具人气社团”。但比起奖状，我们更在意的是那些第一次登台时手在发抖、下台之后却说“我还想再来一次”的瞬间——那才是一个社团真正生长的地方。</p>
+
+  <p>社团文化里有两条不成文的规矩。第一条是“老带新”：每位新社员入社后都会分到一位师兄或师姐，负责解答练琴上的问题、帮忙挑琴、陪着过第一次考核；第二条是每月一次的“音乐沙龙”，大家带着零食坐在排练厅的地板上，随意演奏，随意聊天，没有打分，也没有点评，只有轮流坐在地毯上的人和一盏台灯。</p>
+
+  <p>我们也承认小提琴是一件不太容易上手的乐器，前三个月的音色大概不会太动听，甚至会让室友皱眉头。所以社团特意把训练拆成很小的目标：第一周只练空弦，第一个月只练两首短曲，第一个学期末保证每个人都能完整拉完一支曲子并录制下来。当你在学期末回听第一周的录音，那种落差本身，就是最好的鼓励。</p>
+
+  <p>关于器材，社团与校外的琴行有长期合作，新社员可以以低于市场的价格租琴，也可以先借用社团的公用琴试学一个月，确认自己真的喜欢之后再考虑购买。我们不希望“买琴太贵”成为你放弃尝试的理由。社团还会在每学期初组织一次二手琴交易会，毕业的师兄师姐会把琴留给下一届。</p>
+
+  <p>如果你担心时间冲突，可以看看我们的考勤制度：集体排练允许每学期请假三次，日常活动不做强制打卡，唯一的硬性要求是每学期至少参加一次登台演出——因为学琴这件事，只有真的站在台上，你才知道自己练到了哪里。我们见过太多在琴房里反复练习却始终不敢上台的同学，而他们往往在上台之后进步得最快。</p>
+
+  <p>每年三月和九月是社团的招新季。我们不设面试门槛，只需要你填一张报名表，来参加一次体验课，然后决定要不要留下来。体验课上你会拿到一把琴、一根弓，以及社团自编的《小提琴三十天入门手册》。手册的第一页只有一句话：不要急，慢弓也要走完整的路。</p>
+
+  <p>交响乐之父海顿说过，音乐的尽头是让人与人靠得更近。十六年里，这个小琴房送走了一批又一批毕业生，也迎来了一个又一个忐忑地推开门的清晨。有人在社团里找到了终身的朋友，有人把琴带去了另一座城市，有人在答辩的间隙还会回琴房坐一会儿。如果你也曾在某个晚上被一段弦乐打动过，欢迎你走进来，把这里当成自己的第一间琴房。</p>
+
+  <div class="grid-2">
+    <div class="mini-card"><strong>社团规模</strong>注册社员 137 人 · 覆盖 14 个院系</div>
+    <div class="mini-card"><strong>固定排练</strong>每周三 19:00–21:00 · 艺术楼 A-201</div>
+    <div class="mini-card"><strong>公用器材</strong>小提琴 6 把 · 弓 4 支 · 谱架 12 个</div>
+    <div class="mini-card"><strong>年度演出</strong>迎新晚会 · 冬之弦 · 文化节 · 毕业季</div>
+  </div>
+
+  <p class="back-top"><a href="#top">↑ 一键返回顶部</a></p>
+</section>
+
+<!-- ==================== 2-② 活动安排 ==================== -->
+<section id="activity">
+  <div class="sec-head">
+    <span class="sec-no">02</span>
+    <h2>活动安排</h2>
+    <span class="sub">Schedule</span>
+  </div>
+
+  <p>本学期（2026 年春季学期）的活动安排围绕“打基础、出作品、上舞台”三条主线展开，时间跨度从三月上旬到六月下旬，共十六周。我们把整个学期切成四个阶段，每个阶段都有明确的小目标，避免出现“练了半个学期却不知道自己练到了哪里”的困惑。</p>
+
+  <p>三月的主题是“入门与见面”。开学第一周我们会举办新成员见面会，介绍社团的历史、组织架构、学期计划与考勤制度，同时完成新老社员的结对；第二周安排小提琴基础教学公开课，由李承泽老师主讲，内容涵盖持琴姿势、运弓轨迹、左手手型与最简单的音准判断。这两场活动特意安排在同一间教室，就是为了让新社员在第一周就熟悉环境，第二周回来时不用再找路。</p>
+
+  <p>四月进入“训练与磨合”阶段。零基础班与进阶班分头训练，每周一次集体课、一次自由练琴；重奏组在四月中旬完成组合与曲目确定，随后进入分组排练。这个阶段往往是整个学期最枯燥的一段，社团会穿插一些小型的内部演奏会，让每个人在熟悉的人面前先练一遍胆。</p>
+
+  <p>五月是“排练与打磨”。弦乐团开始合排，曲目从三首里最终确定两首；各声部分别加练，助教负责跟进落单的同学。五月下旬的“琴房开放日”是社团的传统项目，全天开放 A-201，任何人都可以进来听排练、试琴、咨询，也会有不少其他社团的同学来凑热闹。</p>
+
+  <p>六月是“演出与总结”。演出前一周进音乐厅联排，走台、试灯光、试音响；第十四周是毕业季送别演出，也是整个学期最重要的一场；第十六周做学期总结、优秀社员评选与年度影像记录拍摄。学期结束后，社团会把所有录音录像整理成一个合集，发给每一位社员。</p>
+
+  <p>除固定活动外，本学期还有三场特别安排。一是四月下旬与市交响乐团青年演奏员的面对面交流，届时会有现场示范与提问环节；二是五月的二手琴交易会，毕业社员会带着自己的琴来；三是六月的“夜琴房”活动，在夏夜把琴搬到操场草坪上，关掉灯，只点几盏蜡烛，拉给路过的人听。</p>
+
+  <p>关于时间管理，社团的做法是把所有活动提前一整个学期公布，并同步到社团群与公众号，方便大家提前排课。临时调整会提前三天通知。如果某场活动你确实来不了，也无需有负担——我们更希望你在能来的时候真的投入，而不是在来不了的时候心怀愧疚。</p>
+
+  <p>下面这张表是 2026 年春季学期的完整活动安排。表格的第一行是活动安排表的标题，第二行是各列表头；其中【新成员见面会】与【小提琴基础教学公开课】特意安排在同一间教室举行，方便新社员连续两周在同一地点熟悉环境。</p>
+
+  <div class="table-wrap">
+    <table class="schedule">
+      <tbody>
+        <!-- 第一行：标题，跨 4 列 -->
+        <tr class="title-row">
+          <th colspan="4">小提琴社 2026 年春季学期活动安排表</th>
+        </tr>
+        <!-- 第二行：表头，内容居中 -->
+        <tr class="head-row">
+          <th>周次 / 日期</th>
+          <th>活动内容</th>
+          <th>教室</th>
+          <th>负责人</th>
+        </tr>
+        <!-- 第三、四行：同一间教室，跨 2 行 -->
+        <tr>
+          <td>第 1 周 · 3 月 4 日</td>
+          <td>新成员见面会</td>
+          <td class="room" rowspan="2">艺术楼 A-201<br>（同一间教室）</td>
+          <td>周子谦</td>
+        </tr>
+        <tr>
+          <td>第 2 周 · 3 月 11 日</td>
+          <td>小提琴基础教学公开课</td>
+          <td>李承泽</td>
+        </tr>
+        <tr>
+          <td>第 3 – 4 周</td>
+          <td>零基础班 / 进阶班分班训练</td>
+          <td class="room">艺术楼 A-201</td>
+          <td>林曼</td>
+        </tr>
+        <tr>
+          <td>第 5 周 · 4 月 1 日</td>
+          <td>重奏组组建与曲目确定</td>
+          <td class="room">排练厅 B-105</td>
+          <td>周子谦</td>
+        </tr>
+        <tr>
+          <td>第 6 – 8 周</td>
+          <td>重奏组分组排练</td>
+          <td class="room">排练厅 B-105</td>
+          <td>各重奏组组长</td>
+        </tr>
+        <tr>
+          <td>第 9 周 · 4 月 29 日</td>
+          <td>与青年演奏员面对面交流</td>
+          <td class="room">音乐厅</td>
+          <td>李承泽</td>
+        </tr>
+        <tr>
+          <td>第 10 – 12 周</td>
+          <td>“冬之弦”春季专场排练</td>
+          <td class="room">音乐厅</td>
+          <td>周子谦</td>
+        </tr>
+        <tr>
+          <td>第 13 周 · 5 月 27 日</td>
+          <td>琴房开放日 / 二手琴交易会</td>
+          <td class="room">艺术楼 A-201</td>
+          <td>全体助教</td>
+        </tr>
+        <tr>
+          <td>第 14 周 · 6 月 3 日</td>
+          <td>演出前联排（走台、试音）</td>
+          <td class="room">音乐厅</td>
+          <td>林曼</td>
+        </tr>
+        <tr>
+          <td>第 15 周 · 6 月 10 日</td>
+          <td>毕业季送别演出</td>
+          <td class="room">大学生活动中心</td>
+          <td>周子谦</td>
+        </tr>
+        <tr>
+          <td>第 16 周 · 6 月 17 日</td>
+          <td>学期总结与年度影像记录</td>
+          <td class="room">艺术楼 A-201</td>
+          <td>林曼</td>
+        </tr>
+        <!-- 备注行，跨 4 列 -->
+        <tr class="note-row">
+          <td colspan="4">备注：所有活动均为自愿参加，集体排练每学期可请假三次；临时调整将提前三天在社团群通知。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-cap">注：教室信息如有变动，以社团群内最终通知为准。</p>
+
+  <p>我们特别想提醒新社员的是，不要被这张表吓到。十六周里真正需要你到场的核心活动只有八次，其余都是可选的加练与交流。如果你只是想先试试水，从第一周和第二周这两场开始就足够了——它们是整个学期的入口，也是我们认识你的开始。</p>
+
+  <p class="back-top"><a href="#top">↑ 一键返回顶部</a></p>
+</section>
+
+<!-- ==================== 2-③ 风采展示 ==================== -->
+<section id="gallery">
+  <div class="sec-head">
+    <span class="sec-no">03</span>
+    <h2>风采展示</h2>
+    <span class="sub">Gallery</span>
+  </div>
+
+  <p>这一部分记录的是社团最有温度的东西——不是排练计划，也不是考勤表，而是那些被偶然拍下来的瞬间：午后斜射进琴房的阳光、谱架上被翻烂的一页谱子、第一次合排时所有人同时抬起琴弓的那一秒。照片和视频都是社团的集体记忆，也是我们招新时最有力的说明。</p>
+
+  <p>下面这张照片拍摄于去年十一月的下午，地点是艺术楼 A-201。那天阳光很好，弦乐团正在排练《四季·春》的第一乐章，摄影的同学蹲在门边按下了快门。画面里有男有女，有刚入社两个月的零基础班同学，也有已经待了五年的老社员。请点击照片，可以跳转到社团活动介绍页，那里有更详细的往届活动记录。</p>
+
+  <div class="showcase">
+    <figure class="photo-frame">
+      <a href="club_intro.html" title="点击查看社团活动介绍">
+        <img src="violin.jpg" alt="小提琴社日常演奏照片">
+      </a>
+      <figcaption class="hint">点击图片 → 进入社团活动介绍页</figcaption>
+    </figure>
+    <p class="photo-cap">《午后琴房》 摄影：社团影像组 · 2025 年 11 月 · 艺术楼 A-201</p>
+  </div>
+
+  <p>如果你更想“听”和“看”，下面这段短片是社团宣传片的节选。它由 AI 生成的演奏画面经剪辑软件加工而成，配上社团自己录制的和弦铺底，时长控制在十几秒，完整地呈现了一首短曲从起弓到收弓的过程。这段视频也放在了社团的公众号推文里，招新季时播放量超过了两千次。</p>
+
+  <div class="video-box">
+    <embed src="video.mp4" type="video/mp4" width="760" height="427" title="小提琴社宣传短片">
+    <p class="video-cap">社团宣传短片《第一支曲子》· 点击播放（若无画面请先确认 video.mp4 已放在同一目录）</p>
+  </div>
+
+  <p>除了照片和短片，小提琴社每年还会整理一份《年度影像册》，把一整年的排练、演出、聚餐、送别都排进一本电子册子里，按月份分章节，配上一两句手写的说明。册子的最后一页永远空着，留白给下一年。很多毕业的师兄师姐回到学校，第一件事就是要一份最新的影像册。</p>
+
+  <p>社团的影像组由四位同学组成，负责拍摄、剪辑与存档。他们的工作其实比看上去麻烦得多：要在光线昏暗的排练厅里调好曝光，要在合排时忍住不跟着鼓掌以免录进杂音，要在几十条素材里挑出真正动人的那三秒。小提琴社的每一次登台，背后都有他们扛着相机跑来跑去、蹲在舞台边等一个合适的角度。</p>
+
+  <p>往届演出的照片还有很多。去年十二月的“冬之弦”专场音乐会是我们近三年规模最大的一次，音乐厅坐了八成观众，压轴曲目是弦乐团合奏的《天空之城》，返场加演了一首《菊次郎的夏天》。演出结束后有观众在留言本上写：“我本来是陪朋友来的，结果自己被留下了一整晚。”</p>
+
+  <p>社团也在校园之外留下了不少足迹。去年四月，我们受邀到市第二福利院做了一场公益演出，二十多分钟的时间，拉的都是老人家熟悉的旋律；五月与邻校弦乐团做了一次联合排练，两校同学混编成两个声部，从下午一直拉到天快黑。这些活动没有照片上的聚光灯，但往往比正式演出更让人记得住。</p>
+
+  <p>关于影像这件事，社团一直坚持两条原则：一是所有照片和视频都要先征得当事人同意才能发布；二是尽量保留“不完美”的现场感，不刻意摆拍，也不做过度修图。我们更愿意让你看到的是一群人真实地在一起拉琴的样子——包括那些拉错的地方、笑场的地方，以及停下来重新对齐节拍的地方。</p>
+
+  <p>如果你也想出现在这些照片里，招新季的第一次合影通常在见面会当天拍摄，所有人都会入镜，包括当天才第一次来的新面孔。我们希望那张照片里的每一个人，都是真的想留下来的人。</p>
+
+  <p class="back-top"><a href="#top">↑ 一键返回顶部</a></p>
+</section>
+
+<!-- ==================== 2-④ 社员故事 ==================== -->
+<section id="story">
+  <div class="sec-head">
+    <span class="sec-no">04</span>
+    <h2>社员故事（节选）</h2>
+    <span class="sub">Their Stories</span>
+  </div>
+
+  <p>下面的这段文字来自一位 2021 级社员的自述，写于他毕业前的最后一晚。我们把它原样放在这里，没有删改，因为那些略显笨拙的句子，恰恰是这个社团最真实的样子。</p>
+
+  <div class="pull">“我到现在都记得第一次推开 A-201 那扇门的感觉。门有点重，推开的时候会发出一声很长的吱呀，里面十二个人同时抬头看我，我差点转身就走。”</div>
+
+  <p>我是大一下学期才加入社团的。那年寒假我在家刷视频，刷到一段《天空之城》的小提琴独奏，演奏者的手指在弦上跑得飞快，我当时的第一反应是“这不可能是我能做到的事”。但鬼使神差地，我还是在开学第一周去看了社团的招新摊位，填了一张表，然后在一个周三的晚上推开了那扇门。</p>
+
+  <p>第一次集训我连琴都没拿稳。老师让我先拉空弦，我的弓怎么也走不直，声音像是有人在锯木头。旁边一个师姐小声跟我说，别急，我第一周也这样，大家都是这么过来的。那一句话我记了很久——后来我才知道，社团里几乎每个人都从别人嘴里听过这句话，它像一个不成文的接头暗号，在我们之间一代一代传下去。</p>
+
+  <p>真正让我留下来的，是第一次音乐沙龙。那天大家坐在排练厅的地板上，有人带了橘子，有人带了饼干，灯只开了一半。一个平时看起来很沉默的男生突然拉了一段自己改编的《城南旧事》，拉错了好几次，每次都停下来笑一下，然后又从头开始。没有人催他，也没有人拍照。他拉完之后，大家鼓掌，然后就聊起了别的事情。</p>
+
+  <p>那晚回宿舍的路上我一直在想，原来一个社团可以是这样。它不要求你优秀，也不催你出成绩，它只是给你一个地方，让你可以笨拙地、反复地做一件自己喜欢的事，而不必担心被别人评价。这种感觉在我之前的学习生活里几乎没有出现过。</p>
+
+  <p>后来的三年，我从零基础班一路升到弦乐团的第二小提琴声部。中间有过很多想放弃的时刻：期末周练不动的时候，手指磨破的时候，看着别人进步比自己快的时候。最难受的一次是第一次上台，我在演出前半段拉错了一个明显的音，整条旋律都乱了。下台之后我坐在后台的台阶上，觉得自己特别失败。</p>
+
+  <p>是社长把我从台阶上拉起来的。他没有安慰我，只说了一句：“你知道刚才那个音错了，说明你听得出来。很多人拉了三年还听不出来。”那天晚上社团一起去吃夜宵，所有人都在讲自己第一次上台出过的糗事，有人忘谱，有人弓掉了，有人干脆把琴举反了。我一边听一边笑，笑到最后突然就不难过了。</p>
+
+  <p>我现在也会带新社员了。每次看到他们第一次拉空弦时那种紧张的样子，我都会想起当年的自己。我学会的第一句话是“别急”，现在我把它说给别人听，才明白这句话的分量——它不只是安慰，更是一种承诺：我们会等你慢慢来。</p>
+
+  <p>前几天整理东西，翻到社团发的那本《小提琴三十天入门手册》，封皮已经卷边了。第一页那句话还在：不要急，慢弓也要走完整的路。我把它抄在了毕业纪念册的扉页上。</p>
+
+  <p>很多人问我，大学里最不后悔的事是什么。我想了很久，答案不是绩点，也不是某个比赛，而是在一个普通的周三晚上，推开了艺术楼 A-201 那扇会吱呀响的门，然后遇见了这一屋子人。</p>
+
+  <p>如果你现在也在犹豫要不要来，我只想说：那把公用琴还放在琴架的第二层，弓在旁边的盒子里。你来的时候，它就在那儿等你。第一次拉得难听没关系，我们所有人都难听过。</p>
+
+  <p class="back-top"><a href="#top">↑ 一键返回顶部</a></p>
+</section>
+
+<!-- ==================== 2-⑤ / 7 在线报名 ==================== -->
+<section id="signup">
+  <div class="sec-head">
+    <span class="sec-no">05</span>
+    <h2>在线报名</h2>
+    <span class="sub">Join Us</span>
+  </div>
+
+  <p>2026 年春季学期招新从三月一日起正式开放，计划招收新社员四十人左右，零基础与有基础的同学都可以报名。我们不设乐器水平门槛，也不要求你在此之前学过任何乐器——事实上，社团里有将近一半的社员是从零开始的。</p>
+
+  <p>报名流程一共三步。第一步是填写下面这张在线报名表，尽量把信息填完整，尤其是手机号和邮箱，我们的通知会通过这两个渠道发出；第二步是参加一次体验课，时间安排在三月四日与三月十一日的两场活动里，你可以任选一场；第三步是收到确认短信，加入社团群，完成新老社员结对。</p>
+
+  <p>体验课的内容很简单：你会拿到一把琴、一根弓，在助教的带领下学会持琴与运弓的姿势，然后尝试拉出第一个空弦音。整个过程大约四十分钟，不需要任何准备。我们不会在体验课上做任何“考核”，也不会因为谁拉得不好而劝退——这一节课的目的只有一个，让你确认自己是否愿意继续。</p>
+
+  <p>关于费用，社团本身不收取任何会费。公用琴可以免费借用一整个学期，但数量有限，先到先得；如果需要长期使用，社团合作的琴行提供每月百余元的租赁方案，也可以在每学期初的二手琴交易会上选购。教材与谱子由社团统一提供电子版，打印自理。</p>
+
+  <p>常见的问题有三个。第一，“我完全不会看谱怎么办？”——社团的零基础班会从五线谱的最基础讲起，前四周只教认音与节拍，不会看谱完全不影响入社。第二，“我时间很少，能来吗？”——可以，集体排练每学期可请假三次，日常活动均为自愿，唯一的要求是每学期参加一次登台演出。第三，“我已经大三大四了，还来得及吗？”——社团里年纪最大的社员是一位研三的师兄，他是去年才开始的，现在已经能在重奏组拉第二小提琴了。</p>
+
+  <p>如果你还有别的问题，可以在报名表的“自我介绍”一栏里写下来，或者直接到艺术楼 A-201 找我们。工作日的下午三点到六点，琴房基本都有人在。我们很乐意在你正式报名之前，先带你看一眼排练是什么样子。</p>
+
+  <p>小提琴社的招新没有“面试”这一环节，这一点和很多社团不太一样。我们相信一次二十分钟的交谈很难判断一个人能不能坚持拉琴，而一整个学期的出勤与练习会说明一切。所以填完表之后，师兄师姐只会问你两个问题：你为什么想学，以及你每周能拿出多少时间。这两个问题没有标准答案，却往往比任何才艺展示都更能说明你适不适合这里。</p>
+
+  <p>最后想说一句：这个社团已经办了十六年，迎来送往了太多人。我们不敢保证每个人都能坚持下来，但可以保证，只要你推开那扇门，就一定有人愿意陪你从空弦开始。请填写下面的表格，我们在 A-201 等你。</p>
+
+  <div class="form-wrap">
+    <form action="#" method="post">
+      <table class="signup">
+        <tbody>
+          <tr>
+            <th>① 姓名</th>
+            <td><input type="text" name="name" class="text-wide" placeholder="请输入你的姓名"></td>
+          </tr>
+          <tr>
+            <th>② 性别</th>
+            <td>
+              <label><input type="radio" name="gender" value="男">男</label>
+              <label><input type="radio" name="gender" value="女">女</label>
+            </td>
+          </tr>
+          <tr>
+            <th>③ 出生日期</th>
+            <td>
+              <input type="text" name="birth_year" class="date-part" placeholder="年"> 年
+              <input type="text" name="birth_month" class="date-part" placeholder="月"> 月
+              <input type="text" name="birth_day" class="date-part" placeholder="日"> 日
+            </td>
+          </tr>
+          <tr>
+            <th>④ 手机 / 邮箱</th>
+            <td>
+              手机 <input type="text" name="phone" class="text-wide" placeholder="11 位手机号">
+              &nbsp;&nbsp;邮箱 <input type="text" name="email" class="text-wide" placeholder="常用邮箱">
+            </td>
+          </tr>
+          <tr>
+            <th>⑤ 是否有小提琴基础</th>
+            <td>
+              <label><input type="radio" name="base" value="有">有</label>
+              <label><input type="radio" name="base" value="无">无</label>
+            </td>
+          </tr>
+          <tr>
+            <th>⑥ 兴趣方向</th>
+            <td>
+              <label><input type="checkbox" name="interest" value="古典独奏">古典独奏</label>
+              <label><input type="checkbox" name="interest" value="弦乐重奏">弦乐重奏</label>
+              <label><input type="checkbox" name="interest" value="流行改编">流行改编</label>
+              <label><input type="checkbox" name="interest" value="乐团合奏">乐团合奏</label>
+            </td>
+          </tr>
+          <tr>
+            <th>⑦ 年级</th>
+            <td>
+              <select name="grade">
+                <option value="">请选择你的年级</option>
+                <option value="大一">大一</option>
+                <option value="大二">大二</option>
+                <option value="大三">大三</option>
+                <option value="大四">大四</option>
+                <option value="研究生">研究生</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>⑧ 自我介绍</th>
+            <td>
+              <textarea name="introduce" placeholder="请简单介绍自己、以及加入小提琴社的理由……"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <th>⑨ 是否服从活动安排</th>
+            <td>
+              <label><input type="radio" name="obey" value="是">是</label>
+              <label><input type="radio" name="obey" value="否">否</label>
+            </td>
+          </tr>
+          <tr class="ops">
+            <td colspan="2">
+              <input type="submit" value="提交报名">
+              <input type="reset" value="重置表单">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <p class="table-cap">注：本表信息仅用于社团招新联络，不会对外公开；带“重置表单”可清空已填内容。</p>
+
+  <p class="back-top"><a href="#top">↑ 一键返回顶部</a></p>
+</section>
+
+<!-- 浮动返回顶部 -->
+<button id="toTop" type="button" title="返回顶部">↑</button>
+
+<footer>
+  <p class="no-indent"><strong>小提琴社</strong></p>
+  <p class="no-indent">2026 春季招新 · 艺术楼 A-201 · 每周三 19:00–21:00</p>
+  <p class="no-indent">上机作业 work2 · xuyunze-0142</p>
+</footer>
+
+<script>
+  /* ---------- 左上角背景音乐开关 ---------- */
+  (function () {
+    var bgm = document.getElementById('bgm');
+    var btn = document.getElementById('musicBtn');
+
+    btn.addEventListener('click', function () {
+      if (bgm.paused) {
+        var p = bgm.play();
+        if (p && p.catch) {
+          p.then(function () {
+            btn.classList.add('playing');
+            btn.textContent = '⏸ 点击暂停背景音乐';
+          }).catch(function () {
+            btn.textContent = '⚠ 未找到 bgm.mp3';
+          });
+        } else {
+          btn.classList.add('playing');
+          btn.textContent = '⏸ 点击暂停背景音乐';
+        }
+      } else {
+        bgm.pause();
+        btn.classList.remove('playing');
+        btn.textContent = '🎵 点击播放背景音乐';
+      }
+    });
+  })();
+
+  /* ---------- 浮动返回顶部按钮 ---------- */
+  (function () {
+    var toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', function () {
+      toTop.classList.toggle('show', window.scrollY > 600);
+    });
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+</script>
+
+</body>
+</html>

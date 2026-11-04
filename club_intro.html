@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社团活动介绍 · 小提琴社</title>
+<style>
+  :root{
+    --ink:#2b2119;
+    --paper:#fbf6ee;
+    --amber:#b8822c;
+    --amber-light:#e5b96a;
+    --deep:#5e1f1f;
+    --wood:#8a5a33;
+    --line:#e2d5c0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+    font-size:16px;
+    line-height:1.9;
+  }
+  h1,h2,h3{
+    font-family:"Songti SC","SimSun","STSong",serif;
+    letter-spacing:.08em;
+  }
+
+  /* ---------- 顶部 ---------- */
+  header{
+    position:relative;
+    padding:64px 24px 56px;
+    text-align:center;
+    color:#fff8ec;
+    background:linear-gradient(150deg, rgba(43,25,12,.9), rgba(94,31,31,.86)),
+               url("violin.jpg") center/cover no-repeat,
+               linear-gradient(150deg,#3a2414,#5e1f1f);
+  }
+  header .en{
+    font-family:Georgia,serif;
+    letter-spacing:.5em;
+    font-size:.76rem;
+    text-transform:uppercase;
+    color:var(--amber-light);
+    margin-bottom:16px;
+  }
+  header h1{margin:0 0 12px;font-size:clamp(1.7rem,4.6vw,2.7rem);}
+  header p{margin:0;color:#efdcc2;font-size:.95rem;}
+
+  /* ---------- 返回按钮 ---------- */
+  .back-bar{
+    background:#f6ecdb;
+    border-bottom:1px solid var(--line);
+    text-align:center;
+    padding:14px 16px;
+    position:sticky;
+    top:0;
+    z-index:40;
+  }
+  .back-bar a{
+    display:inline-block;
+    padding:9px 30px;
+    font-size:.9rem;
+    letter-spacing:.16em;
+    color:#6b5335;
+    text-decoration:none;
+    background:#fffdf8;
+    border:1px solid #cbb894;
+    border-radius:999px;
+    transition:.25s;
+  }
+  .back-bar a:hover{background:var(--deep);color:#fff6e6;border-color:var(--deep);}
+
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:62px 26px 20px;
+  }
+  .lead{
+    font-family:"Songti SC","SimSun",serif;
+    font-size:1.06rem;
+    color:#4a3521;
+    border-left:4px solid var(--amber);
+    background:#f6ecdb;
+    padding:20px 26px;
+    margin:0 0 34px;
+  }
+  h2{
+    font-size:1.34rem;
+    color:var(--deep);
+    margin:44px 0 16px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  p{margin:0 0 1.05em;text-indent:2em;}
+
+  /* ---------- 活动卡片 ---------- */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
+    margin:26px 0 10px;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-top:4px solid var(--amber);
+    border-radius:6px;
+    padding:20px 22px;
+    box-shadow:0 3px 12px rgba(120,90,50,.06);
+  }
+  .card h3{
+    margin:0 0 6px;
+    font-size:1.02rem;
+    color:var(--deep);
+  }
+  .card .meta{
+    font-size:.8rem;
+    letter-spacing:.1em;
+    color:var(--amber);
+    margin-bottom:10px;
+  }
+  .card p{text-indent:0;font-size:.92rem;margin:0;color:#4f4032;}
+
+  /* ---------- 时间线 ---------- */
+  ul.timeline{
+    list-style:none;
+    margin:24px 0 10px;
+    padding:0 0 0 22px;
+    border-left:2px solid #e2d5c0;
+  }
+  ul.timeline li{
+    position:relative;
+    padding:0 0 22px 20px;
+    font-size:.95rem;
+  }
+  ul.timeline li::before{
+    content:"";
+    position:absolute;
+    left:-29px;
+    top:9px;
+    width:11px;height:11px;
+    border-radius:50%;
+    background:var(--amber);
+    border:2px solid var(--paper);
+  }
+  ul.timeline strong{color:var(--deep);}
+
+  /* ---------- 图片 ---------- */
+  figure{
+    margin:34px 0;
+    border:9px solid #fff;
+    box-shadow:0 10px 28px rgba(90,60,25,.2);
+    background:#efe6d6;
+  }
+  figure img{display:block;width:100%;height:auto;max-height:460px;object-fit:cover;}
+  figcaption{
+    text-align:center;
+    font-size:.85rem;
+    color:var(--wood);
+    padding:10px 6px 4px;
+    background:#fff;
+  }
+
+  /* ---------- 底部返回 ---------- */
+  .bottom-back{
+    text-align:center;
+    margin:56px 0 10px;
+    padding:34px 20px;
+    background:#f6ecdb;
+    border:1px dashed #d9c9ae;
+    border-radius:8px;
+  }
+  .bottom-back p{text-indent:0;margin:0 0 18px;color:#6b5335;font-size:.95rem;}
+  .bottom-back a.btn{
+    display:inline-block;
+    padding:12px 40px;
+    background:var(--deep);
+    color:#fff6e6;
+    text-decoration:none;
+    letter-spacing:.2em;
+    font-size:.95rem;
+    border-radius:4px;
+    transition:.25s;
+  }
+  .bottom-back a.btn:hover{background:var(--amber);}
+
+  footer{
+    margin-top:44px;
+    padding:36px 24px 30px;
+    background:#2b1a10;
+    color:#d8c6ac;
+    text-align:center;
+    font-size:.84rem;
+    letter-spacing:.06em;
+  }
+  footer strong{color:var(--amber-light);font-family:"Songti SC","SimSun",serif;letter-spacing:.3em;}
+
+  @media (max-width:640px){
+    main{padding:44px 18px 16px;}
+    .lead{padding:16px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="en">Violin Club · Activities</div>
+  <h1>社团活动介绍</h1>
+  <p>小提琴社 · 2026 春季学期 · 艺术楼 A-201</p>
+</header>
+
+<div class="back-bar">
+  <a href="xuyunze-0142-work2.html">← 返回小提琴社招新网页</a>
+</div>
+
+<main>
+
+  <p class="lead">
+    这里记录了小提琴社一整个学期的主要活动：从新成员见面会到毕业季送别演出，
+    从每周固定的集体排练到夏夜草坪上的“夜琴房”。如果你是从招新网页点过来的，
+    下面的内容能让你更具体地知道，加入这个社团之后你会经历些什么。
+  </p>
+
+  <h2>一、每周常规活动</h2>
+
+  <div class="cards">
+    <div class="card">
+      <div class="meta">每周三 · 19:00–21:00</div>
+      <h3>集体排练</h3>
+      <p>社团最核心的活动。前半段分声部加练，后半段全团合排，学期末会完整过一遍演出曲目。</p>
+    </div>
+    <div class="card">
+      <div class="meta">每周六 · 14:00–17:00</div>
+      <h3>自由练琴</h3>
+      <p>琴房全天开放，公用琴可借用。助教会轮流值班，帮新社员纠正姿势、解决音准问题。</p>
+    </div>
+    <div class="card">
+      <div class="meta">每月最后一周</div>
+      <h3>音乐沙龙</h3>
+      <p>坐在排练厅的地板上随意演奏、随意聊天，不打分也不点评，是社团最放松的时刻。</p>
+    </div>
+  </div>
+
+  <h2>二、学期重点活动</h2>
+
+  <ul class="timeline">
+    <li><strong>三月 · 新成员见面会</strong><br>介绍社团历史、组织架构与学期计划，完成新老社员结对。地点：艺术楼 A-201。</li>
+    <li><strong>三月 · 小提琴基础教学公开课</strong><br>李承泽老师主讲，内容涵盖持琴、运弓、左手手型与音准判断。与新成员见面会同在一间教室。</li>
+    <li><strong>四月 · 重奏组组建</strong><br>按水平与声部需求编成三到五人的小型室内乐组合，确定本学期重奏曲目。</li>
+    <li><strong>四月 · 与青年演奏员面对面</strong><br>邀请市交响乐团青年演奏员来校交流，现场示范并回答关于练琴与考级的问题。</li>
+    <li><strong>五月 · 琴房开放日</strong><br>全天开放 A-201，任何人可进来看排练、试琴、咨询；同期举办二手琴交易会。</li>
+    <li><strong>六月 · 毕业季送别演出</strong><br>一学期最重要的一场演出，弦乐团与重奏组全员登台，压轴通常是全体合奏。</li>
+  </ul>
+
+  <figure>
+    <img src="violin.jpg" alt="小提琴社排练现场">
+    <figcaption>弦乐团在艺术楼 A-201 的日常排练 · 摄影：社团影像组</figcaption>
+  </figure>
+
+  <h2>三、活动之外</h2>
+
+  <p>除固定安排外，社团每年还会组织一些“不那么正式”的活动。夏夜的“夜琴房”是其中最受欢迎的一个：大家把琴搬到操场的草坪上，关掉大灯，只点几盏蜡烛，拉给路过的人听。没有节目单，也没有主持人，谁想拉就走到中间去。</p>
+
+  <p>社团也做公益演出。去年四月我们去市第二福利院做了一场二十多分钟的演出，曲目全是老人家熟悉的旋律；每年六月还会参与学校的毕业季快闪。这些活动不计算在考核里，也不强制参加，但参与过的人大多会记得很久。</p>
+
+  <p>如果你对上面任何一项活动感兴趣，欢迎在招新期间来 A-201 看一眼。工作日下午三点到六点，琴房基本都有人。</p>
+
+  <div class="bottom-back">
+    <p>看完了？回到招新主页，填写在线报名表，我们在 A-201 等你。</p>
+    <a class="btn" href="xuyunze-0142-work2.html">返回小提琴社招新网页 →</a>
+  </div>
+
+</main>
+
+<footer>
+  <p style="text-indent:0;margin:0 0 6px;"><strong>小提琴社</strong></p>
+  <p style="text-indent:0;margin:0;">艺术楼 A-201 · 每周三 19:00–21:00 · 上机作业 work2 · xuyunze-0142</p>
+</footer>
+
+</body>
+</html>
